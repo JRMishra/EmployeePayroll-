@@ -7,8 +7,11 @@ namespace EmployeePayrollService
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Employee Payroll Service Program");
-            Console.WriteLine("===========================================");
+            Console.WriteLine("\tWelcome to Employee Payroll Service Program");
+            Console.WriteLine("\t===========================================\n");
+
+            EmployeeRepo employeeRepo = new EmployeeRepo();
+            employeeRepo.GetAllEmployee();
         }
     }
 }
