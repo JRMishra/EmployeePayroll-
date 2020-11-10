@@ -78,5 +78,19 @@ namespace EmployeePayrollService
             }
             return false;
         }
+
+        public bool RemoveEmployee(string name,int id)
+        {
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand("delete from employee_payroll where Name = @empname and id = @empId", connection);
+                command.Parameters.AddWithValue("@empname", name);
+                command.Parameters.AddWithValue("@empId", id);
+                connection.Open();
+                int result = command.ExecuteNonQuery();
+                Console.WriteLine(result+ " rows deleted...");
+            }
+            return false;
+        }
     }
 }

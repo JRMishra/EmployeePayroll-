@@ -26,6 +26,8 @@ namespace EmployeePayrollService
             //if (employeeRepo.AddEmployee(employee))
             //    Console.WriteLine("Records added successfully");
 
+            employeeRepo.RemoveEmployee("Satyam", 6);
+
         }
     }
 }
