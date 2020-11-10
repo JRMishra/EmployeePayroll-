@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace EmployeePayrollService
@@ -81,16 +82,39 @@ namespace EmployeePayrollService
 
         public bool RemoveEmployee(string name,int id)
         {
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand("delete from employee_payroll where Name = @empname and id = @empId", connection);
-                command.Parameters.AddWithValue("@empname", name);
-                command.Parameters.AddWithValue("@empId", id);
-                connection.Open();
-                int result = command.ExecuteNonQuery();
-                Console.WriteLine(result+ " rows deleted...");
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlCommand command = new SqlCommand("delete from employee_payroll where Name = @empname and id = @empId", connection);
+                    command.Parameters.AddWithValue("@empname", name);
+                    command.Parameters.AddWithValue("@empId", id);
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    Console.WriteLine(result + " rows deleted...");
+                }
             }
-            return false;
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool AddMultipleEmployee(List<EmployeeModel> employeesList)
+        {
+            try
+            {
+                employeesList.ForEach(employeeData =>
+                {
+                    AddEmployee(employeeData);
+                });
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

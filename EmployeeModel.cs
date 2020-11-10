@@ -7,6 +7,21 @@ namespace EmployeePayrollService
 {
     class EmployeeModel
     {
+        public EmployeeModel()
+        {
+        }
+
+        public EmployeeModel(string employeeName, string phoneNumber, string address, string department, char gender, SqlMoney basicPay, DateTime startDate)
+        {
+            EmployeeName = employeeName;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            Department = department;
+            Gender = gender;
+            BasicPay = basicPay;
+            StartDate = startDate;
+        }
+
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
         public string PhoneNumber { get; set; }
