@@ -57,10 +57,6 @@ namespace EmployeePayrollService
             command.Parameters.AddWithValue("@Department", model.Department);
             command.Parameters.AddWithValue("@Gender", model.Gender);
             command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
-            command.Parameters.AddWithValue("@Deductions", model.Deductions);
-            command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
-            command.Parameters.AddWithValue("@Tax", model.Tax);
-            command.Parameters.AddWithValue("@NetPay", model.NetPay);
             command.Parameters.AddWithValue("@StartDate", DateTime.Now);
             try
             {
