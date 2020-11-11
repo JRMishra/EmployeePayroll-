@@ -49,6 +49,7 @@ namespace EmployeePayrollService
                 {
                     Task task = new Task(() => AddEmployee(employeeData));
                     task.Start();
+                    task.Wait();
                 });
             }
             catch
