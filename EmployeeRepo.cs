@@ -8,6 +8,7 @@ namespace EmployeePayrollService
     {
         public static string connectionString = @"Data Source=OCAC\SQK2K20JRM;Initial Catalog=payroll_service;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
+
         public void GetAllEmployee()
         {
             try
@@ -63,6 +64,7 @@ namespace EmployeePayrollService
             {
                 this.connection.Open();
                 var result = command.ExecuteNonQuery();
+                Console.WriteLine("Sequential Execution --\t"+"Name of employee added : " + model.EmployeeName);
                 if (result != 0)
                 {
                     return true;

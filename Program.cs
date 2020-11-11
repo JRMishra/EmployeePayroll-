@@ -11,6 +11,7 @@ namespace EmployeePayrollService
             Console.WriteLine("\t===========================================\n");
 
             PayrollService.Start();
+            Console.ReadKey();
         }
     }
 }

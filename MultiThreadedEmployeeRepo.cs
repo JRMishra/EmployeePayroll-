@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace EmployeePayrollService
 {
@@ -26,6 +29,7 @@ namespace EmployeePayrollService
             {
                 this.connection.Open();
                 var result = command.ExecuteNonQuery();
+                Console.WriteLine("Multi thread Execution --" + "Name of employee added : " + model.EmployeeName);
             }
             catch (Exception e)
             {
@@ -43,8 +47,8 @@ namespace EmployeePayrollService
             {
                 employeesList.ForEach(employeeData =>
                 {
-                    Thread thread = new Thread(()=>AddEmployee(employeeData));
-                    thread.Start();
+                    Task task = new Task(() => AddEmployee(employeeData));
+                    task.Start();
                 });
             }
             catch

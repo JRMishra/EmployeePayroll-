@@ -49,7 +49,6 @@ namespace EmployeePayrollService
             DateTime endDateTime = DateTime.Now;
             Console.WriteLine("Without Thread : " + (endDateTime - startDateTime));
 
-
             startDateTime = DateTime.Now;
             threadedEmployeeRepo.AddMultipleEmployee(employeeDetailsList);
             endDateTime = DateTime.Now;
