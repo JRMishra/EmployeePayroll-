@@ -29,11 +29,15 @@ namespace EmployeePayrollService
             {   
                 Thread thread = new Thread(() =>
                 {
-                    if(connection.State==ConnectionState.Closed)
-                        this.connection.Open();
-                    var result = command.ExecuteNonQuery();
-                    Console.WriteLine("Multi thread Execution --" + "Name of employee added : " + model.EmployeeName);
-                    this.connection.Close();
+                    lock (connection)
+                    {
+                        if (connection.State == ConnectionState.Closed)
+                            this.connection.Open();
+                        var result = command.ExecuteNonQuery();
+                        Console.WriteLine("\tMulti thread Execution --" + "Name of employee added : " + model.EmployeeName);
+                        if (connection.State == ConnectionState.Open)
+                            this.connection.Close();
+                    }
                 });
                 thread.Start();
                 thread.Join();
@@ -52,7 +56,7 @@ namespace EmployeePayrollService
                 {
                     Task task = new Task(() => AddEmployee(employeeData));
                     task.Start();
-                    task.Wait();
+                    //task.Wait();
                 });
             }
             catch

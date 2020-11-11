@@ -64,7 +64,7 @@ namespace EmployeePayrollService
             {
                 this.connection.Open();
                 var result = command.ExecuteNonQuery();
-                Console.WriteLine("Sequential Execution --\t"+"Name of employee added : " + model.EmployeeName);
+                Console.WriteLine("\tSequential Execution --\t"+"Name of employee added : " + model.EmployeeName);
                 if (result != 0)
                 {
                     return true;
