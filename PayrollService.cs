@@ -10,31 +10,50 @@ namespace EmployeePayrollService
         public static void Start()
         {
             EmployeeRepo employeeRepo = new EmployeeRepo();
-            
+            MultiThreadedEmployeeRepo threadedEmployeeRepo = new MultiThreadedEmployeeRepo();
             //employeeRepo.GetAllEmployee();
 
-            //EmployeeModel employee = new EmployeeModel();
-            //employee.EmployeeName = "Dibya";
-            //employee.Department = "Tech";
-            //employee.PhoneNumber = "6309807918";
-            //employee.Address = "02-Khajauli";
-            //employee.Gender = 'M';
-            //employee.BasicPay = 110000.00M;
-            //employee.Deductions = (SqlMoney)1500.00;
-            //employee.StartDate = employee.StartDate = Convert.ToDateTime("2020-11-03");
+            //AddNewEmployee(employeeRepo);
 
-            //if (employeeRepo.AddEmployee(employee))
-            //    Console.WriteLine("Records added successfully");
+            CompareSequentialWithMultiThreading(employeeRepo, threadedEmployeeRepo);
 
-            //employeeRepo.RemoveEmployee("Satyam", 6);
+        }
 
+        private static void AddNewEmployee(EmployeeRepo employeeRepo)
+        {
+            EmployeeModel employee = new EmployeeModel();
+            employee.EmployeeName = "Dibya";
+            employee.Department = "Tech";
+            employee.PhoneNumber = "6309807918";
+            employee.Address = "02-Khajauli";
+            employee.Gender = 'M';
+            employee.BasicPay = 110000.00M;
+            employee.Deductions = (SqlMoney)1500.00;
+            employee.StartDate = employee.StartDate = Convert.ToDateTime("2020-11-03");
+
+            if (employeeRepo.AddEmployee(employee))
+                Console.WriteLine("Records added successfully");
+
+            employeeRepo.RemoveEmployee("Satyam", 6);
+        }
+
+        private static void CompareSequentialWithMultiThreading(EmployeeRepo employeeRepo, MultiThreadedEmployeeRepo threadedEmployeeRepo)
+        {
             List<EmployeeModel> employeeDetailsList = new List<EmployeeModel>();
-            employeeDetailsList.Add(new EmployeeModel("Bruce", "9999999999", "Melbourn", "HR", 'M', 100, new DateTime(2020, 10, 01)));
-            employeeDetailsList.Add(new EmployeeModel("Banner", "8888112233", "Berlin", "HR", 'M', 100, new DateTime(2020, 10, 10)));
-            employeeDetailsList.Add(new EmployeeModel("Clark", "9876541230", "Newyork", "HR", 'M', 100, new DateTime(2020, 11, 01)));
-            bool result = employeeRepo.AddMultipleEmployee(employeeDetailsList);
-            if (result)
-                Console.WriteLine("All details in list added successfully...");
+            employeeDetailsList.Add(new EmployeeModel("Batik", "9999999999", "Wuhan", "Research", 'M', 100000, new DateTime(2020, 11, 01)));
+            employeeDetailsList.Add(new EmployeeModel("Bipasha", "8888112233", "Mumbai", "Media", 'F', 200000, new DateTime(2020, 11, 10)));
+            employeeDetailsList.Add(new EmployeeModel("Rohit", "9876541230", "Mumbai", "Entertainment", 'M', 150000, new DateTime(2020, 11, 01)));
+
+            DateTime startDateTime = DateTime.Now;
+            employeeRepo.AddMultipleEmployee(employeeDetailsList);
+            DateTime endDateTime = DateTime.Now;
+            Console.WriteLine("Without Thread : " + (endDateTime - startDateTime));
+
+
+            startDateTime = DateTime.Now;
+            threadedEmployeeRepo.AddMultipleEmployee(employeeDetailsList);
+            endDateTime = DateTime.Now;
+            Console.WriteLine("With Thread : " + (endDateTime - startDateTime));
         }
     }
 }
