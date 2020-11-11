@@ -26,18 +26,21 @@ namespace EmployeePayrollService
             command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
             command.Parameters.AddWithValue("@StartDate", DateTime.Now);
             try
-            {
-                this.connection.Open();
-                var result = command.ExecuteNonQuery();
-                Console.WriteLine("Multi thread Execution --" + "Name of employee added : " + model.EmployeeName);
+            {   
+                Thread thread = new Thread(() =>
+                {
+                    if(connection.State==ConnectionState.Closed)
+                        this.connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    Console.WriteLine("Multi thread Execution --" + "Name of employee added : " + model.EmployeeName);
+                    this.connection.Close();
+                });
+                thread.Start();
+                thread.Join();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                this.connection.Close();
             }
         }
 
