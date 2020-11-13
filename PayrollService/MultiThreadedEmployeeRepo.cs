@@ -29,11 +29,6 @@ namespace EmployeePayrollService
             {   
                 Thread thread = new Thread(() =>
                 {
-                    if(connection.State==ConnectionState.Closed)
-                        this.connection.Open();
-                    var result = command.ExecuteNonQuery();
-                    Console.WriteLine("\tMulti thread Execution --" + "Name of employee added : " + model.EmployeeName);
-                    this.connection.Close();
                     lock (connection)
                     {
                         if (connection.State == ConnectionState.Closed)
