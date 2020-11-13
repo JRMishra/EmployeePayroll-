@@ -56,5 +56,34 @@ namespace TestRestSharp
             Assert.AreEqual(15000, dataResponse.salary);
 
         }
+
+        [TestMethod]
+        public void givenEmployeeList_OnPost_ShouldReturnAddedEmployee()
+        {
+            RestRequest request = new RestRequest("/employees", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+
+            JObject[] employees = new JObject[2];
+            JObject jObjectbody = new JObject();
+            jObjectbody.Add("name", "Tony");
+            jObjectbody.Add("Salary", 18000);
+            employees[0]=jObjectbody;
+            
+            jObjectbody = new JObject();
+            jObjectbody.Add("name", "Thanos");
+            jObjectbody.Add("Salary", 180000);
+            employees[1]=jObjectbody;
+
+            var data = JsonConvert.SerializeObject(employees);
+            request.AddParameter("application/json", ParameterType.HttpHeader);
+            request.AddJsonBody(data);
+            //act
+            IRestResponse response = client.Execute(request);
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.Created);
+            Employee[] dataResponse = JsonConvert.DeserializeObject<Employee[]>(response.Content);
+           
+            Assert.AreEqual(2, dataResponse.Length);
+            Assert.AreEqual("Thanos", dataResponse[1].name);
+        }
     }
 }
