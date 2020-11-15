@@ -57,33 +57,51 @@ namespace TestRestSharp
 
         }
 
+        //[TestMethod]
+        //public void givenEmployeeList_OnPost_ShouldReturnAddedEmployee()
+        //{
+        //    RestRequest request = new RestRequest("/employees", Method.POST);
+
+        //    IList<JObject> employees = new List<JObject>();
+
+        //    JObject jObjectbody = new JObject();
+        //    jObjectbody.Add("name", "Tony");
+        //    jObjectbody.Add("Salary", 18000);
+        //    employees.Add(jsonobject);
+
+        //    jObjectbody = new JObject();
+        //    jObjectbody.Add("name", "Thanos");
+        //    jObjectbody.Add("Salary", 180000);
+        //    jsonobject = new JsonParameter("employees", jObjectbody);
+
+        //    //var data = JsonConvert.SerializeObject(employees);
+        //    //System.Console.WriteLine(data.Substring(1,data.Length-2));
+        //    request.AddOrUpdateParameters(employees);
+
+        //    //act
+        //    IRestResponse response = client.Execute(request);
+        //    Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.Created);
+        //    //IList dataResponse = JsonConvert.DeserializeObject<List>(response.Content);
+
+        //    //Assert.AreEqual(2, dataResponse.Count);
+        //    //Assert.AreEqual("Thanos", dataResponse[1].name);
+        //}
+
         [TestMethod]
-        public void givenEmployeeList_OnPost_ShouldReturnAddedEmployee()
+        public void givenEmployeeId_OnPut_ShouldReturnUpdatedEmployee()
         {
-            RestRequest request = new RestRequest("/employees", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-
-            JObject[] employees = new JObject[2];
+            RestRequest request = new RestRequest("/employees/3", Method.PUT);
             JObject jObjectbody = new JObject();
-            jObjectbody.Add("name", "Tony");
-            jObjectbody.Add("Salary", 18000);
-            employees[0]=jObjectbody;
-            
-            jObjectbody = new JObject();
-            jObjectbody.Add("name", "Thanos");
-            jObjectbody.Add("Salary", 180000);
-            employees[1]=jObjectbody;
+            jObjectbody.Add("name", "Shiva");
+            jObjectbody.Add("Salary", "30000");
+            request.AddParameter("application/json", jObjectbody, ParameterType.RequestBody);
 
-            var data = JsonConvert.SerializeObject(employees);
-            request.AddParameter("application/json", ParameterType.HttpHeader);
-            request.AddJsonBody(data);
             //act
             IRestResponse response = client.Execute(request);
-            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.Created);
-            Employee[] dataResponse = JsonConvert.DeserializeObject<Employee[]>(response.Content);
-           
-            Assert.AreEqual(2, dataResponse.Length);
-            Assert.AreEqual("Thanos", dataResponse[1].name);
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
+            Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
+            Assert.AreEqual("Shiva", dataResponse.name);
+            Assert.AreEqual(30000, dataResponse.salary);
         }
     }
 }
