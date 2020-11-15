@@ -103,5 +103,16 @@ namespace TestRestSharp
             Assert.AreEqual("Shiva", dataResponse.name);
             Assert.AreEqual(30000, dataResponse.salary);
         }
+        
+        [TestMethod]
+        public void givenEmployeeId_OnDelete_ShouldDeleteEmployeeWithGivenId()
+        {
+            RestRequest request = new RestRequest("/employees/17", Method.DELETE);
+            
+            //act
+            IRestResponse response = client.Execute(request);
+            Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
+            Assert.AreEqual("{}", response.Content);
+        }
     }
 }
